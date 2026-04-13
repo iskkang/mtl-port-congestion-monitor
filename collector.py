@@ -268,8 +268,20 @@ def build_rows(now: datetime) -> list[dict]:
 
 def save_metrics(rows: list[dict], now: datetime):
     supabase.table("port_current").upsert(rows, on_conflict="port_code").execute()
-    history_rows = [{**r, "snapshot_at": now.isoformat()} for r in rows]
-    supabase.table("port_history").insert(history_rows).execute()
+    history_rows = [
+    {
+        "port_code": r["port_code"],
+        "snapshot_at": now.isoformat(),
+        "vessels_anchored": r["vessels_anchored"],
+        "vessels_berthed": r["vessels_berthed"],
+        "avg_wait_hours": r["avg_wait_hours"],
+        "max_wait_hours": r["max_wait_hours"],
+        "tpfs": r["tpfs"],
+        "level": r["level"],
+    }
+    for r in rows
+]
+supabase.table("port_history").insert(history_rows).execute()
 
     congested = sum(1 for r in rows if r["level"] == "CONGESTED")
     busy = sum(1 for r in rows if r["level"] == "BUSY")
