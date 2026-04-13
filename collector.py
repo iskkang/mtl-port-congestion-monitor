@@ -29,7 +29,7 @@ SCORE_BERTHED = float(os.getenv("SCORE_BERTHED", "2.0"))
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_SVC_KEY)
 AISSTREAM_WS = "wss://stream.aisstream.io/v0/stream"
 
-# ─── 50개 항만 정의 ───────────────────────────────────────────
+# ─── 항만 정의 ────────────────────────────────────────────────
 # box: [[min_lat, min_lon], [max_lat, max_lon]]
 PORTS: Dict[str, dict] = {
     # 한국·일본
@@ -38,9 +38,8 @@ PORTS: Dict[str, dict] = {
     "JPNGO": {"name": "Nagoya", "country": "JP", "region": "kr-jp", "lat": 35.07, "lon": 136.88, "box": [[34.8, 136.5], [35.4, 137.2]]},
     "JPYOK": {"name": "Yokohama", "country": "JP", "region": "kr-jp", "lat": 35.45, "lon": 139.65, "box": [[35.2, 139.4], [35.7, 139.9]]},
     "JPTYO": {"name": "Tokyo", "country": "JP", "region": "kr-jp", "lat": 35.62, "lon": 139.77, "box": [[35.4, 139.5], [35.8, 140.1]]},
-    "JPUKB": {"name": "Kobe", "country": "JP", "region": "kr-jp", "lat": 34.68, "lon": 135.20, "box": [[34.5, 134.9], [34.9, 135.5]]},
 
-    # 중국
+    # 중국 · 홍콩 · 대만
     "CNSHA": {"name": "Shanghai", "country": "CN", "region": "china", "lat": 31.23, "lon": 121.47, "box": [[30.8, 121.0], [31.6, 122.0]]},
     "CNQIN": {"name": "Qingdao", "country": "CN", "region": "china", "lat": 36.07, "lon": 120.38, "box": [[35.8, 120.0], [36.3, 120.7]]},
     "CNNGB": {"name": "Ningbo", "country": "CN", "region": "china", "lat": 29.87, "lon": 121.55, "box": [[29.6, 121.2], [30.1, 122.0]]},
@@ -48,6 +47,9 @@ PORTS: Dict[str, dict] = {
     "CNYTN": {"name": "Yantian", "country": "CN", "region": "china", "lat": 22.57, "lon": 114.27, "box": [[22.3, 114.0], [22.8, 114.6]]},
     "CNNSA": {"name": "Nansha", "country": "CN", "region": "china", "lat": 22.77, "lon": 113.57, "box": [[22.5, 113.2], [23.0, 113.9]]},
     "CNDLC": {"name": "Dalian", "country": "CN", "region": "china", "lat": 38.91, "lon": 121.60, "box": [[38.6, 121.2], [39.1, 122.0]]},
+    "HKHKG": {"name": "Hong Kong", "country": "HK", "region": "china", "lat": 22.31, "lon": 114.17, "box": [[22.15, 113.95], [22.50, 114.35]]},
+    "CNXMN": {"name": "Xiamen", "country": "CN", "region": "china", "lat": 24.48, "lon": 118.08, "box": [[24.20, 117.80], [24.75, 118.35]]},
+    "TWKHH": {"name": "Kaohsiung", "country": "TW", "region": "china", "lat": 22.62, "lon": 120.28, "box": [[22.40, 120.10], [22.80, 120.45]]},
 
     # 동남아시아
     "VNTOT": {"name": "Cai Mep", "country": "VN", "region": "sea", "lat": 10.52, "lon": 107.03, "box": [[10.2, 106.7], [10.8, 107.4]]},
@@ -55,6 +57,7 @@ PORTS: Dict[str, dict] = {
     "THLCH": {"name": "Laem Chabang", "country": "TH", "region": "sea", "lat": 13.08, "lon": 100.88, "box": [[12.8, 100.6], [13.4, 101.2]]},
     "SGSIN": {"name": "Singapore", "country": "SG", "region": "sea", "lat": 1.26, "lon": 103.82, "box": [[0.9, 103.5], [1.6, 104.2]]},
     "MYLPK": {"name": "Port Klang", "country": "MY", "region": "sea", "lat": 3.00, "lon": 101.38, "box": [[2.7, 101.0], [3.3, 101.7]]},
+    "MYTPP": {"name": "Tanjung Pelepas", "country": "MY", "region": "sea", "lat": 1.36, "lon": 103.53, "box": [[1.15, 103.35], [1.55, 103.70]]},
     "IDJKT": {"name": "Jakarta", "country": "ID", "region": "sea", "lat": -6.10, "lon": 106.88, "box": [[-6.4, 106.5], [-5.7, 107.2]]},
     "IDSUB": {"name": "Surabaya", "country": "ID", "region": "sea", "lat": -7.20, "lon": 112.73, "box": [[-7.5, 112.4], [-6.9, 113.1]]},
     "PHMNL": {"name": "Manila", "country": "PH", "region": "sea", "lat": 14.59, "lon": 120.97, "box": [[14.2, 120.6], [14.9, 121.3]]},
@@ -63,8 +66,12 @@ PORTS: Dict[str, dict] = {
     "LKCMB": {"name": "Colombo", "country": "LK", "region": "sa-me", "lat": 6.93, "lon": 79.85, "box": [[6.6, 79.5], [7.2, 80.2]]},
     "AEJEA": {"name": "Jebel Ali", "country": "AE", "region": "sa-me", "lat": 24.98, "lon": 55.06, "box": [[24.6, 54.7], [25.3, 55.4]]},
     "INBOM": {"name": "Mumbai", "country": "IN", "region": "sa-me", "lat": 18.94, "lon": 72.84, "box": [[18.6, 72.5], [19.2, 73.1]]},
+    "INNSA": {"name": "Nhava Sheva (JNPT)", "country": "IN", "region": "sa-me", "lat": 18.95, "lon": 72.95, "box": [[18.75, 72.75], [19.15, 73.15]]},
+    "INMUN": {"name": "Mundra", "country": "IN", "region": "sa-me", "lat": 22.74, "lon": 69.70, "box": [[22.45, 69.40], [23.00, 69.95]]},
+    "OMSLL": {"name": "Salalah", "country": "OM", "region": "sa-me", "lat": 16.95, "lon": 54.01, "box": [[16.75, 53.80], [17.15, 54.25]]},
+    "SADMM": {"name": "Dammam", "country": "SA", "region": "sa-me", "lat": 26.43, "lon": 50.10, "box": [[26.15, 49.85], [26.70, 50.35]]},
+    "QAHMD": {"name": "Hamad Port", "country": "QA", "region": "sa-me", "lat": 24.79, "lon": 51.61, "box": [[24.55, 51.35], [25.00, 51.85]]},
     "JOAQJ": {"name": "Aqaba", "country": "JO", "region": "sa-me", "lat": 29.52, "lon": 35.00, "box": [[29.2, 34.7], [29.8, 35.3]]},
-    "ILASH": {"name": "Ashdod", "country": "IL", "region": "sa-me", "lat": 31.82, "lon": 34.65, "box": [[31.5, 34.3], [32.1, 34.9]]},
 
     # 유럽
     "NLRTM": {"name": "Rotterdam", "country": "NL", "region": "europe", "lat": 51.92, "lon": 4.48, "box": [[51.6, 4.0], [52.2, 5.0]]},
@@ -84,15 +91,23 @@ PORTS: Dict[str, dict] = {
     "USNYC": {"name": "New York", "country": "US", "region": "namerica", "lat": 40.67, "lon": -74.01, "box": [[40.3, -74.4], [40.9, -73.6]]},
     "USSAV": {"name": "Savannah", "country": "US", "region": "namerica", "lat": 32.08, "lon": -81.09, "box": [[31.8, -81.4], [32.4, -80.8]]},
     "CAVAN": {"name": "Vancouver", "country": "CA", "region": "namerica", "lat": 49.29, "lon": -123.11, "box": [[49.0, -123.5], [49.6, -122.7]]},
-    "USMSY": {"name": "New Orleans", "country": "US", "region": "namerica", "lat": 29.95, "lon": -90.07, "box": [[29.6, -90.4], [30.2, -89.7]]},
+
+    # 중남미
+    "BRSSZ": {"name": "Santos", "country": "BR", "region": "latam", "lat": -23.95, "lon": -46.33, "box": [[-24.20, -46.60], [-23.70, -46.00]]},
+    "COCTG": {"name": "Cartagena", "country": "CO", "region": "latam", "lat": 10.39, "lon": -75.53, "box": [[10.15, -75.75], [10.60, -75.30]]},
+    "PECLL": {"name": "Callao", "country": "PE", "region": "latam", "lat": -12.05, "lon": -77.15, "box": [[-12.30, -77.35], [-11.85, -76.95]]},
+    "COBUN": {"name": "Buenaventura", "country": "CO", "region": "latam", "lat": 3.88, "lon": -77.08, "box": [[3.65, -77.25], [4.05, -76.90]]},
+    "PABLB": {"name": "Balboa", "country": "PA", "region": "latam", "lat": 8.95, "lon": -79.57, "box": [[8.75, -79.75], [9.10, -79.40]]},
+    "PACLN": {"name": "Colon", "country": "PA", "region": "latam", "lat": 9.36, "lon": -79.90, "box": [[9.15, -80.10], [9.55, -79.70]]},
 
     # 러시아·CIS
     "RUVVO": {"name": "Vladivostok", "country": "RU", "region": "ru-cis", "lat": 43.12, "lon": 131.89, "box": [[42.8, 131.5], [43.5, 132.3]]},
     "RUNVS": {"name": "Novorossiysk", "country": "RU", "region": "ru-cis", "lat": 44.72, "lon": 37.78, "box": [[44.4, 37.4], [44.9, 38.2]]},
-    "KZAKT": {"name": "Aktau", "country": "KZ", "region": "ru-cis", "lat": 43.65, "lon": 51.18, "box": [[43.3, 50.8], [44.0, 51.6]]},
 
     # 아프리카·지중해
+    "MATNG": {"name": "Tanger Med", "country": "MA", "region": "africa", "lat": 35.89, "lon": -5.50, "box": [[35.70, -5.75], [36.05, -5.25]]},
     "MACAS": {"name": "Casablanca", "country": "MA", "region": "africa", "lat": 33.59, "lon": -7.62, "box": [[33.3, -7.9], [33.9, -7.3]]},
+    "NGAPP": {"name": "Lagos/Apapa", "country": "NG", "region": "africa", "lat": 6.45, "lon": 3.38, "box": [[6.25, 3.15], [6.65, 3.60]]},
     "KEMBA": {"name": "Mombasa", "country": "KE", "region": "africa", "lat": -4.05, "lon": 39.67, "box": [[-4.4, 39.3], [-3.7, 40.0]]},
     "ZADUR": {"name": "Durban", "country": "ZA", "region": "africa", "lat": -29.87, "lon": 31.03, "box": [[-30.2, 30.7], [-29.5, 31.4]]},
     "TZDAR": {"name": "Dar es Salaam", "country": "TZ", "region": "africa", "lat": -6.82, "lon": 39.29, "box": [[-7.1, 38.9], [-6.5, 39.6]]},
