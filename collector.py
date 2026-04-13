@@ -278,10 +278,10 @@ def save_metrics(rows: list[dict], now: datetime):
         "max_wait_hours": r["max_wait_hours"],
         "tpfs": r["tpfs"],
         "level": r["level"],
-    }
-    for r in rows
-]
-supabase.table("port_history").insert(history_rows).execute()
+        }
+        for r in rows
+    ]
+    supabase.table("port_history").insert(history_rows).execute()
 
     congested = sum(1 for r in rows if r["level"] == "CONGESTED")
     busy = sum(1 for r in rows if r["level"] == "BUSY")
