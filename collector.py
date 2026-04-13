@@ -266,20 +266,37 @@ def build_rows(now: datetime) -> list[dict]:
     return rows
 
 
-def save_metrics(rows: list[dict], now: datetime):
-    supabase.table("port_current").upsert(rows, on_conflict="port_code").execute()
+def save_metrics(rows, now):
+    # 최신 테이블 업데이트
+    supabase.table("port_current").upsert(
+        rows,
+        on_conflict="port_code"
+    ).execute()
+
+    # 이력 테이블 저장
     history_rows = [
-    {
-        "port_code": r["port_code"],
-        "snapshot_at": now.isoformat(),
-        "vessels_anchored": r["vessels_anchored"],
-        "vessels_berthed": r["vessels_berthed"],
-        "avg_wait_hours": r["avg_wait_hours"],
-        "max_wait_hours": r["max_wait_hours"],
-        "tpfs": r["tpfs"],
-        "level": r["level"],
+        {
+            "port_code": r["port_code"],
+            "snapshot_at": now.isoformat(),
+            "vessels_anchored": r["vessels_anchored"],
+            "vessels_berthed": r["vessels_berthed"],
+            "avg_wait_hours": r["avg_wait_hours"],
+            "max_wait_hours": r["max_wait_hours"],
+            "tpfs": r["tpfs"],
+            "level": r["level"],
         }
         for r in rows
+    ]
+
+    supabase.table("port_history").insert(history_rows).execute()
+
+    congested = sum(1 for r in rows if r["level"] == "CONGESTED")
+    busy = sum(1 for r in rows if r["level"] == "BUSY")
+
+    log.info(
+        f"Saved {len(rows)} ports | "
+        f"CONGESTED={congested}, BUSY={busy}"
+    )
     ]
     supabase.table("port_history").insert(history_rows).execute()
 
