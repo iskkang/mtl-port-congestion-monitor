@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -7,8 +8,8 @@
 
 <script>
 const CONFIG = {
-  SUPABASE_URL:      "https://YOUR_PROJECT_ID.supabase.co",
-  SUPABASE_ANON_KEY: "YOUR_ANON_PUBLIC_KEY",
+  SUPABASE_URL:      "https://jyrxqgdlyrqjtpyrocwi.supabase.co",
+  SUPABASE_ANON_KEY: "sb_publishable_sXuXdldzuBJs0lzAgq5Fbg_59m2btU_",
   REFRESH_MS:        300000,
 };
 </script>
@@ -42,7 +43,6 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,'Segoe UI'
 .section-title{font-size:18px;font-weight:600;margin-bottom:.25rem}
 .section-sub{font-size:12px;color:var(--dim);margin-bottom:1.25rem}
 
-/* S01 */
 .snap-grid{display:grid;grid-template-columns:240px 1fr;gap:1rem}
 @media(max-width:640px){.snap-grid{grid-template-columns:1fr}}
 .gauge-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;display:flex;flex-direction:column;align-items:center;gap:.5rem}
@@ -68,7 +68,6 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,'Segoe UI'
 .sum-val{font-size:18px;font-weight:700;font-variant-numeric:tabular-nums}
 .sum-lbl{font-size:11px;color:var(--muted)}
 
-/* S02 */
 .region-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(195px,1fr));gap:.75rem}
 .region-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.125rem}
 .rg-name{font-size:13px;font-weight:600;margin-bottom:.2rem}
@@ -78,7 +77,6 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,'Segoe UI'
 .rg-bar{height:5px;border-radius:3px;overflow:hidden;display:flex;margin-bottom:.625rem;background:rgba(255,255,255,.05)}
 .rg-status{font-size:11px;font-weight:600}
 
-/* S03: 지도 */
 .map-container{position:relative;background:#050c18;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
 .map-container svg{display:block;width:100%}
 .sphere-fill{fill:#050c18}
@@ -110,8 +108,7 @@ circle.bubble:hover{opacity:.78}
 .tt-badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700;letter-spacing:.04em;margin-top:6px}
 .map-loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:13px;background:#050c18;z-index:20}
 
-/* S04 */
-.tabs{display:flex;gap:.25rem;margin-bottom:1rem}
+.tabs{display:flex;gap:.25rem;margin-bottom:1rem;flex-wrap:wrap}
 .tab-btn{padding:.4rem .9rem;border-radius:var(--radius-sm);font-size:13px;font-weight:500;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--dim);font-family:inherit}
 .tab-btn.active{background:var(--c-sta-bg);color:var(--c-sta);border-color:rgba(59,130,246,.35)}
 .tab-btn:hover:not(.active){color:var(--text)}
@@ -130,15 +127,14 @@ circle.bubble:hover{opacity:.78}
 .badge.BUSY{background:var(--c-busy-bg);color:var(--c-busy)}
 .badge.STABLE{background:var(--c-sta-bg);color:var(--c-sta)}
 .badge.LOW{background:var(--c-low-bg);color:var(--c-low)}
-.wait-row{display:flex;align-items:center;gap:8px}
-.wait-bg{flex:1;height:5px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden;min-width:50px}
-.wait-fill{height:100%;border-radius:3px}
-.wait-val{font-size:12px;font-weight:600;min-width:42px;font-variant-numeric:tabular-nums}
+.metric-row{display:flex;align-items:center;gap:8px}
+.metric-bg{flex:1;height:5px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden;min-width:50px}
+.metric-fill{height:100%;border-radius:3px}
+.metric-val{font-size:12px;font-weight:600;min-width:42px;font-variant-numeric:tabular-nums}
 .chg-up{color:var(--c-con);font-size:12px;font-weight:600}
 .chg-dn{color:var(--c-low);font-size:12px;font-weight:600}
 .chg-flat{color:var(--muted);font-size:12px}
 
-/* S05 */
 .warn-list{display:flex;flex-direction:column;gap:.625rem}
 .warn-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:.875rem 1rem;display:grid;gap:.75rem;grid-template-columns:1fr 90px 130px 60px;align-items:center}
 @media(max-width:640px){.warn-card{grid-template-columns:1fr 1fr}}
@@ -162,25 +158,24 @@ circle.bubble:hover{opacity:.78}
   </div>
   <div class="hdr-right">
     <span class="pulse-dot"></span>
-    <span>AIS 실시간 기반 · 50개 항만</span>
+    <span>12시간 배치 업데이트 · 50개 항만</span>
   </div>
 </header>
 
-<!-- SECTION 01 -->
 <section class="section">
   <div class="section-label">Section 01</div>
   <div class="section-title">글로벌 혼잡도 스냅샷</div>
-  <div class="section-sub" id="s01-sub">50개 항만 기준 전 세계 PCI 분포 현황</div>
+  <div class="section-sub" id="s01-sub">50개 항만 기준 전 세계 TPFS 분포 현황</div>
   <div class="snap-grid">
     <div class="gauge-card">
-      <div class="gauge-label">TPFS — Composite</div>
+      <div class="gauge-label">TPFS — Snapshot</div>
       <svg id="gauge-svg" viewBox="0 0 200 130" style="width:100%;max-width:200px" aria-label="TPFS 게이지"></svg>
       <div class="gauge-value" id="g-val">—</div>
       <div class="gauge-sub" id="g-sub">/ 100</div>
       <div class="gauge-meta">
         <div class="gm-item"><div class="gm-val" id="g-risk">—</div><div class="gm-lbl">위험 항만 수</div></div>
         <div class="gm-item"><div class="gm-val" id="g-lv" style="color:var(--c-busy)">—</div><div class="gm-lbl">위험도</div></div>
-        <div class="gm-item"><div class="gm-val" id="g-wait">—</div><div class="gm-lbl">평균 지연</div></div>
+        <div class="gm-item"><div class="gm-val" id="g-anchor">—</div><div class="gm-lbl">총 대기 선박</div></div>
       </div>
     </div>
     <div class="level-card">
@@ -190,21 +185,19 @@ circle.bubble:hover{opacity:.78}
       </div>
       <div class="summary-row">
         <div class="sum-cell"><div class="sum-val" id="sum-bc" style="color:var(--c-con)">—</div><div class="sum-lbl">BUSY + CONGESTED</div></div>
-        <div class="sum-cell"><div class="sum-val" id="sum-max" style="color:var(--c-con)">—</div><div class="sum-lbl">최대 접안 지연</div></div>
+        <div class="sum-cell"><div class="sum-val" id="sum-berthed" style="color:var(--c-sta)">—</div><div class="sum-lbl">총 접안 선박</div></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- SECTION 02 -->
 <section class="section">
   <div class="section-label">Section 02</div>
   <div class="section-title">권역별 혼잡도 현황</div>
-  <div class="section-sub">권역별 PCI 분포 및 평균 접안 지연 시간 (2주 이동 평균 기준)</div>
+  <div class="section-sub">권역별 TPFS 평균 및 현재 대기/접안 선박 스냅샷 기준</div>
   <div class="region-grid" id="region-grid"></div>
 </section>
 
-<!-- SECTION 03: 세계 지도 -->
 <section class="section" style="border-bottom:none;padding-bottom:0">
   <div class="section-label">Section 03</div>
   <div class="section-title">글로벌 혼잡 현황 지도</div>
@@ -231,11 +224,10 @@ circle.bubble:hover{opacity:.78}
   </div>
 </div>
 
-<!-- SECTION 04 -->
 <section class="section">
   <div class="section-label">Section 04</div>
   <div class="section-title">주목 항만 분석</div>
-  <div class="section-sub">PCI 레벨 및 직전기 대비 변화 기준 선별 항만</div>
+  <div class="section-sub">TPFS 레벨 및 현재 대기 선박 수 기준 선별 항만</div>
   <div class="tabs" id="tabs"></div>
   <div class="region-filter" id="region-filter"></div>
   <div style="overflow-x:auto">
@@ -246,11 +238,10 @@ circle.bubble:hover{opacity:.78}
   </div>
 </section>
 
-<!-- SECTION 05 -->
 <section class="section">
   <div class="section-label">Section 05</div>
-  <div class="section-title">조기 혼잡 경보 항만</div>
-  <div class="section-sub">아직 LOW·STABLE이지만 직전기 대비 지연 증가율이 가장 높은 항만 — 선제 모니터링 대상</div>
+  <div class="section-title">선제 모니터링 항만</div>
+  <div class="section-sub">아직 LOW·STABLE이지만 현재 대기 선박 수가 높은 항만 — 조기 체크 대상</div>
   <div class="warn-list" id="warn-list"></div>
 </section>
 
@@ -320,56 +311,56 @@ const REGION_META={
   "africa":{label:"아프리카·지중해"},
 };
 const MOCK=[
-  {port_code:"KRPUS",tpfs:18.3,level:"LOW",avg_wait_hours:3.2,vessels_anchored:2,vessels_berthed:31,change:-2,prevWait:4.1},
-  {port_code:"KRICN",tpfs:28.5,level:"STABLE",avg_wait_hours:8.1,vessels_anchored:4,vessels_berthed:12,change:1,prevWait:6.8},
-  {port_code:"JPNGO",tpfs:31.2,level:"STABLE",avg_wait_hours:11.4,vessels_anchored:6,vessels_berthed:18,change:2,prevWait:9.3},
-  {port_code:"JPYOK",tpfs:52.1,level:"BUSY",avg_wait_hours:17.1,vessels_anchored:9,vessels_berthed:22,change:3,prevWait:12.2},
-  {port_code:"JPTYO",tpfs:29.8,level:"STABLE",avg_wait_hours:7.4,vessels_anchored:3,vessels_berthed:19,change:0,prevWait:7.4},
-  {port_code:"JPUKB",tpfs:15.2,level:"LOW",avg_wait_hours:2.8,vessels_anchored:1,vessels_berthed:14,change:-1,prevWait:3.5},
-  {port_code:"CNSHA",tpfs:21.4,level:"LOW",avg_wait_hours:5.1,vessels_anchored:8,vessels_berthed:62,change:1,prevWait:4.8},
-  {port_code:"CNQIN",tpfs:19.8,level:"LOW",avg_wait_hours:5.0,vessels_anchored:5,vessels_berthed:38,change:2,prevWait:3.8},
-  {port_code:"CNNGB",tpfs:27.3,level:"STABLE",avg_wait_hours:9.2,vessels_anchored:7,vessels_berthed:41,change:0,prevWait:9.2},
-  {port_code:"CNTXG",tpfs:20.1,level:"LOW",avg_wait_hours:4.8,vessels_anchored:4,vessels_berthed:29,change:-1,prevWait:5.3},
-  {port_code:"CNYTN",tpfs:25.8,level:"STABLE",avg_wait_hours:12.0,vessels_anchored:6,vessels_berthed:24,change:3,prevWait:9.0},
-  {port_code:"CNNSA",tpfs:22.7,level:"LOW",avg_wait_hours:6.3,vessels_anchored:3,vessels_berthed:22,change:0,prevWait:6.3},
-  {port_code:"CNDLC",tpfs:16.4,level:"LOW",avg_wait_hours:3.1,vessels_anchored:2,vessels_berthed:18,change:-1,prevWait:3.7},
-  {port_code:"VNTOT",tpfs:32.1,level:"STABLE",avg_wait_hours:8.0,vessels_anchored:5,vessels_berthed:8,change:5,prevWait:5.0},
-  {port_code:"VNHPH",tpfs:24.3,level:"LOW",avg_wait_hours:5.5,vessels_anchored:3,vessels_berthed:9,change:1,prevWait:5.0},
-  {port_code:"THLCH",tpfs:19.2,level:"LOW",avg_wait_hours:3.8,vessels_anchored:2,vessels_berthed:16,change:0,prevWait:3.8},
-  {port_code:"SGSIN",tpfs:26.4,level:"STABLE",avg_wait_hours:6.2,vessels_anchored:12,vessels_berthed:78,change:-1,prevWait:6.8},
-  {port_code:"MYLPK",tpfs:78.1,level:"CONGESTED",avg_wait_hours:41.6,vessels_anchored:39,vessels_berthed:9,change:2,prevWait:38.2},
-  {port_code:"IDJKT",tpfs:31.8,level:"STABLE",avg_wait_hours:10.2,vessels_anchored:8,vessels_berthed:14,change:-1,prevWait:11.4},
-  {port_code:"IDSUB",tpfs:71.4,level:"CONGESTED",avg_wait_hours:38.1,vessels_anchored:6,vessels_berthed:0,change:-1,prevWait:40.2},
-  {port_code:"PHMNL",tpfs:83.3,level:"CONGESTED",avg_wait_hours:49.5,vessels_anchored:7,vessels_berthed:4,change:0,prevWait:49.5},
-  {port_code:"LKCMB",tpfs:23.4,level:"LOW",avg_wait_hours:5.8,vessels_anchored:4,vessels_berthed:21,change:-2,prevWait:7.2},
-  {port_code:"AEJEA",tpfs:34.2,level:"STABLE",avg_wait_hours:14.5,vessels_anchored:11,vessels_berthed:42,change:2,prevWait:12.1},
-  {port_code:"INBOM",tpfs:29.1,level:"STABLE",avg_wait_hours:9.8,vessels_anchored:6,vessels_berthed:18,change:0,prevWait:9.8},
-  {port_code:"JOAQJ",tpfs:21.3,level:"LOW",avg_wait_hours:4.1,vessels_anchored:2,vessels_berthed:7,change:-1,prevWait:4.8},
-  {port_code:"ILASH",tpfs:68.3,level:"CONGESTED",avg_wait_hours:17.0,vessels_anchored:0,vessels_berthed:0,change:1,prevWait:15.8},
-  {port_code:"NLRTM",tpfs:26.8,level:"STABLE",avg_wait_hours:8.3,vessels_anchored:5,vessels_berthed:41,change:-3,prevWait:11.8},
-  {port_code:"DEHAM",tpfs:18.2,level:"LOW",avg_wait_hours:3.9,vessels_anchored:2,vessels_berthed:28,change:-2,prevWait:5.8},
-  {port_code:"BEANR",tpfs:27.4,level:"STABLE",avg_wait_hours:7.1,vessels_anchored:4,vessels_berthed:36,change:-1,prevWait:8.2},
-  {port_code:"GBFXT",tpfs:14.3,level:"LOW",avg_wait_hours:2.2,vessels_anchored:1,vessels_berthed:22,change:0,prevWait:2.2},
-  {port_code:"FRLEH",tpfs:17.8,level:"LOW",avg_wait_hours:3.4,vessels_anchored:2,vessels_berthed:19,change:-1,prevWait:4.1},
-  {port_code:"GRPIR",tpfs:33.8,level:"STABLE",avg_wait_hours:14.0,vessels_anchored:8,vessels_berthed:16,change:4,prevWait:9.7},
-  {port_code:"ESVLC",tpfs:28.9,level:"STABLE",avg_wait_hours:8.6,vessels_anchored:5,vessels_berthed:24,change:-2,prevWait:11.1},
-  {port_code:"ITGOA",tpfs:32.4,level:"STABLE",avg_wait_hours:25.0,vessels_anchored:10,vessels_berthed:0,change:4,prevWait:18.1},
-  {port_code:"SIKOP",tpfs:74.2,level:"CONGESTED",avg_wait_hours:39.0,vessels_anchored:6,vessels_berthed:2,change:1,prevWait:36.4},
-  {port_code:"ESALG",tpfs:22.1,level:"LOW",avg_wait_hours:5.2,vessels_anchored:3,vessels_berthed:22,change:0,prevWait:5.2},
-  {port_code:"USLAX",tpfs:16.4,level:"LOW",avg_wait_hours:3.1,vessels_anchored:2,vessels_berthed:18,change:-1,prevWait:3.8},
-  {port_code:"USLGB",tpfs:14.8,level:"LOW",avg_wait_hours:2.4,vessels_anchored:1,vessels_berthed:22,change:-2,prevWait:3.9},
-  {port_code:"USNYC",tpfs:19.3,level:"LOW",avg_wait_hours:4.2,vessels_anchored:3,vessels_berthed:24,change:0,prevWait:4.2},
-  {port_code:"USSAV",tpfs:12.1,level:"LOW",avg_wait_hours:1.8,vessels_anchored:1,vessels_berthed:14,change:-1,prevWait:2.4},
-  {port_code:"CAVAN",tpfs:17.2,level:"LOW",avg_wait_hours:3.6,vessels_anchored:2,vessels_berthed:16,change:0,prevWait:3.6},
-  {port_code:"USMSY",tpfs:26.4,level:"STABLE",avg_wait_hours:6.0,vessels_anchored:4,vessels_berthed:8,change:3,prevWait:4.2},
-  {port_code:"RUVVO",tpfs:21.4,level:"LOW",avg_wait_hours:4.8,vessels_anchored:3,vessels_berthed:9,change:-1,prevWait:5.4},
-  {port_code:"RUNVS",tpfs:28.3,level:"STABLE",avg_wait_hours:7.2,vessels_anchored:4,vessels_berthed:11,change:0,prevWait:7.2},
-  {port_code:"KZAKT",tpfs:18.7,level:"LOW",avg_wait_hours:3.4,vessels_anchored:2,vessels_berthed:4,change:-2,prevWait:5.2},
-  {port_code:"MACAS",tpfs:81.6,level:"CONGESTED",avg_wait_hours:114.0,vessels_anchored:14,vessels_berthed:6,change:3,prevWait:98.2},
-  {port_code:"KEMBA",tpfs:61.2,level:"BUSY",avg_wait_hours:21.3,vessels_anchored:8,vessels_berthed:5,change:2,prevWait:18.1},
-  {port_code:"ZADUR",tpfs:55.8,level:"BUSY",avg_wait_hours:18.4,vessels_anchored:6,vessels_berthed:12,change:-1,prevWait:20.1},
-  {port_code:"TZDAR",tpfs:38.2,level:"STABLE",avg_wait_hours:12.8,vessels_anchored:5,vessels_berthed:6,change:1,prevWait:11.6},
-  {port_code:"EGPSD",tpfs:31.4,level:"STABLE",avg_wait_hours:9.1,vessels_anchored:6,vessels_berthed:18,change:-1,prevWait:10.3},
+  {port_code:"KRPUS",tpfs:18.3,level:"LOW",vessels_anchored:2,vessels_berthed:31},
+  {port_code:"KRICN",tpfs:28.5,level:"STABLE",vessels_anchored:4,vessels_berthed:12},
+  {port_code:"JPNGO",tpfs:31.2,level:"STABLE",vessels_anchored:6,vessels_berthed:18},
+  {port_code:"JPYOK",tpfs:52.1,level:"BUSY",vessels_anchored:9,vessels_berthed:22},
+  {port_code:"JPTYO",tpfs:29.8,level:"STABLE",vessels_anchored:3,vessels_berthed:19},
+  {port_code:"JPUKB",tpfs:15.2,level:"LOW",vessels_anchored:1,vessels_berthed:14},
+  {port_code:"CNSHA",tpfs:21.4,level:"LOW",vessels_anchored:8,vessels_berthed:62},
+  {port_code:"CNQIN",tpfs:19.8,level:"LOW",vessels_anchored:5,vessels_berthed:38},
+  {port_code:"CNNGB",tpfs:27.3,level:"STABLE",vessels_anchored:7,vessels_berthed:41},
+  {port_code:"CNTXG",tpfs:20.1,level:"LOW",vessels_anchored:4,vessels_berthed:29},
+  {port_code:"CNYTN",tpfs:25.8,level:"STABLE",vessels_anchored:6,vessels_berthed:24},
+  {port_code:"CNNSA",tpfs:22.7,level:"LOW",vessels_anchored:3,vessels_berthed:22},
+  {port_code:"CNDLC",tpfs:16.4,level:"LOW",vessels_anchored:2,vessels_berthed:18},
+  {port_code:"VNTOT",tpfs:32.1,level:"STABLE",vessels_anchored:5,vessels_berthed:8},
+  {port_code:"VNHPH",tpfs:24.3,level:"LOW",vessels_anchored:3,vessels_berthed:9},
+  {port_code:"THLCH",tpfs:19.2,level:"LOW",vessels_anchored:2,vessels_berthed:16},
+  {port_code:"SGSIN",tpfs:26.4,level:"STABLE",vessels_anchored:12,vessels_berthed:78},
+  {port_code:"MYLPK",tpfs:78.1,level:"CONGESTED",vessels_anchored:39,vessels_berthed:9},
+  {port_code:"IDJKT",tpfs:31.8,level:"STABLE",vessels_anchored:8,vessels_berthed:14},
+  {port_code:"IDSUB",tpfs:71.4,level:"BUSY",vessels_anchored:6,vessels_berthed:0},
+  {port_code:"PHMNL",tpfs:83.3,level:"CONGESTED",vessels_anchored:7,vessels_berthed:4},
+  {port_code:"LKCMB",tpfs:23.4,level:"LOW",vessels_anchored:4,vessels_berthed:21},
+  {port_code:"AEJEA",tpfs:34.2,level:"STABLE",vessels_anchored:11,vessels_berthed:42},
+  {port_code:"INBOM",tpfs:29.1,level:"STABLE",vessels_anchored:6,vessels_berthed:18},
+  {port_code:"JOAQJ",tpfs:21.3,level:"LOW",vessels_anchored:2,vessels_berthed:7},
+  {port_code:"ILASH",tpfs:68.3,level:"BUSY",vessels_anchored:5,vessels_berthed:9},
+  {port_code:"NLRTM",tpfs:26.8,level:"STABLE",vessels_anchored:5,vessels_berthed:41},
+  {port_code:"DEHAM",tpfs:18.2,level:"LOW",vessels_anchored:2,vessels_berthed:28},
+  {port_code:"BEANR",tpfs:27.4,level:"STABLE",vessels_anchored:4,vessels_berthed:36},
+  {port_code:"GBFXT",tpfs:14.3,level:"LOW",vessels_anchored:1,vessels_berthed:22},
+  {port_code:"FRLEH",tpfs:17.8,level:"LOW",vessels_anchored:2,vessels_berthed:19},
+  {port_code:"GRPIR",tpfs:33.8,level:"STABLE",vessels_anchored:8,vessels_berthed:16},
+  {port_code:"ESVLC",tpfs:28.9,level:"STABLE",vessels_anchored:5,vessels_berthed:24},
+  {port_code:"ITGOA",tpfs:32.4,level:"STABLE",vessels_anchored:10,vessels_berthed:11},
+  {port_code:"SIKOP",tpfs:74.2,level:"BUSY",vessels_anchored:6,vessels_berthed:2},
+  {port_code:"ESALG",tpfs:22.1,level:"LOW",vessels_anchored:3,vessels_berthed:22},
+  {port_code:"USLAX",tpfs:16.4,level:"LOW",vessels_anchored:2,vessels_berthed:18},
+  {port_code:"USLGB",tpfs:14.8,level:"LOW",vessels_anchored:1,vessels_berthed:22},
+  {port_code:"USNYC",tpfs:19.3,level:"LOW",vessels_anchored:3,vessels_berthed:24},
+  {port_code:"USSAV",tpfs:12.1,level:"LOW",vessels_anchored:1,vessels_berthed:14},
+  {port_code:"CAVAN",tpfs:17.2,level:"LOW",vessels_anchored:2,vessels_berthed:16},
+  {port_code:"USMSY",tpfs:26.4,level:"STABLE",vessels_anchored:4,vessels_berthed:8},
+  {port_code:"RUVVO",tpfs:21.4,level:"LOW",vessels_anchored:3,vessels_berthed:9},
+  {port_code:"RUNVS",tpfs:28.3,level:"STABLE",vessels_anchored:4,vessels_berthed:11},
+  {port_code:"KZAKT",tpfs:18.7,level:"LOW",vessels_anchored:2,vessels_berthed:4},
+  {port_code:"MACAS",tpfs:81.6,level:"CONGESTED",vessels_anchored:14,vessels_berthed:6},
+  {port_code:"KEMBA",tpfs:61.2,level:"BUSY",vessels_anchored:8,vessels_berthed:5},
+  {port_code:"ZADUR",tpfs:55.8,level:"BUSY",vessels_anchored:6,vessels_berthed:12},
+  {port_code:"TZDAR",tpfs:38.2,level:"STABLE",vessels_anchored:5,vessels_berthed:6},
+  {port_code:"EGPSD",tpfs:31.4,level:"STABLE",vessels_anchored:6,vessels_berthed:18},
 ];
 const LC={CONGESTED:"#ef4444",BUSY:"#f59e0b",STABLE:"#3b82f6",LOW:"#22c55e"};
 
@@ -384,10 +375,18 @@ async function fetchSupa(){
 }
 
 function merge(raw){
-  return(raw||MOCK).map(d=>({...d,...(PORT_META[d.port_code]||{}),change:d.change??0,prevWait:d.prevWait??d.avg_wait_hours})).filter(d=>d.lat&&d.lon);
+  return (raw||MOCK).map(d=>({
+    ...d,
+    ...(PORT_META[d.port_code]||{}),
+    vessels_anchored: Number(d.vessels_anchored||0),
+    vessels_berthed: Number(d.vessels_berthed||0),
+    tpfs: Number(d.tpfs||0),
+    avg_wait_hours: Number(d.avg_wait_hours||0),
+    max_wait_hours: Number(d.max_wait_hours||0),
+    snapshot_score: Number(d.vessels_anchored||0) * 2 + Number(d.vessels_berthed||0) * 0.3,
+  })).filter(d=>d.lat&&d.lon);
 }
 
-// 게이지
 function gpt(cx,cy,r,deg){const a=(deg-90)*Math.PI/180;return[cx+r*Math.cos(a),cy+r*Math.sin(a)];}
 function buildGauge(v){
   const cx=100,cy=86,r=68;
@@ -406,13 +405,12 @@ function buildGauge(v){
 <text x="100" y="14" font-size="9" fill="#64748b" text-anchor="middle" font-family="sans-serif">50</text>`;
 }
 
-// S01
 function renderS01(data){
   const n=data.length,con=data.filter(d=>d.level==="CONGESTED").length,bsy=data.filter(d=>d.level==="BUSY").length;
   const sta=data.filter(d=>d.level==="STABLE").length,low=data.filter(d=>d.level==="LOW").length;
   const avg=data.reduce((s,d)=>s+(d.tpfs||0),0)/n;
-  const avgW=data.reduce((s,d)=>s+(d.avg_wait_hours||0),0)/n;
-  const maxW=Math.max(...data.map(d=>d.avg_wait_hours||0));
+  const totalAnchored=data.reduce((s,d)=>s+(d.vessels_anchored||0),0);
+  const totalBerthed=data.reduce((s,d)=>s+(d.vessels_berthed||0),0);
   const bc=con+bsy;
   document.getElementById("gauge-svg").innerHTML=buildGauge(avg);
   document.getElementById("g-val").textContent=avg.toFixed(1);
@@ -420,7 +418,7 @@ function renderS01(data){
   document.getElementById("g-sub").textContent=`/ 100 — ${lbl}`;
   document.getElementById("g-risk").textContent=bc;
   document.getElementById("g-lv").textContent=avg>=50?"BUSY":avg>=25?"STABLE":"LOW";
-  document.getElementById("g-wait").textContent=avgW.toFixed(1)+"h";
+  document.getElementById("g-anchor").textContent=totalAnchored+"척";
   const lvs=[{lv:"CONGESTED",cnt:con},{lv:"BUSY",cnt:bsy},{lv:"STABLE",cnt:sta},{lv:"LOW",cnt:low}];
   const mx=Math.max(con,bsy,sta,low)||1;
   document.getElementById("level-rows").innerHTML=lvs.map(({lv,cnt})=>`
@@ -432,17 +430,17 @@ function renderS01(data){
       <div class="lv-cnt">${cnt}</div>
     </div>`).join("");
   document.getElementById("sum-bc").textContent=bc+"개 항만";
-  document.getElementById("sum-max").textContent=maxW.toFixed(1)+"h";
-  document.getElementById("s01-sub").textContent=`50개 항만 기준 · BUSY+CONGESTED: ${((bc/n)*100).toFixed(1)}%`;
+  document.getElementById("sum-berthed").textContent=totalBerthed+"척";
+  document.getElementById("s01-sub").textContent=`50개 항만 기준 · BUSY+CONGESTED: ${((bc/n)*100).toFixed(1)}% · 총 대기 ${totalAnchored}척`;
 }
 
-// S02
 function tc(v){return v>=75?"#ef4444":v>=50?"#f59e0b":v>=25?"#3b82f6":"#22c55e";}
 function renderS02(data){
   document.getElementById("region-grid").innerHTML=Object.entries(REGION_META).map(([key,meta])=>{
     const pts=data.filter(d=>d.region===key);if(!pts.length)return"";
     const avg=pts.reduce((s,d)=>s+(d.tpfs||0),0)/pts.length;
-    const avgW=pts.reduce((s,d)=>s+(d.avg_wait_hours||0),0)/pts.length;
+    const anchored=pts.reduce((s,d)=>s+(d.vessels_anchored||0),0);
+    const berthed=pts.reduce((s,d)=>s+(d.vessels_berthed||0),0);
     const bc=pts.filter(d=>d.level==="BUSY"||d.level==="CONGESTED").length;
     const lW=pts.filter(d=>d.level==="LOW").length/pts.length*100;
     const sW=pts.filter(d=>d.level==="STABLE").length/pts.length*100;
@@ -454,7 +452,7 @@ function renderS02(data){
       <div class="rg-name">${meta.label}</div>
       <div class="rg-ports">${pts.length}개 항만</div>
       <div class="rg-tpfs" style="color:${tc(avg)}">${avg.toFixed(1)} <span style="font-size:13px;color:var(--dim)">TPFS</span></div>
-      <div class="rg-detail">${avgW.toFixed(1)}h 평균 지연 · BUSY+CON ${Math.round(bc/pts.length*100)}%</div>
+      <div class="rg-detail">대기 ${anchored}척 · 접안 ${berthed}척 · BUSY+CON ${Math.round(bc/pts.length*100)}%</div>
       <div class="rg-bar">
         <div style="width:${lW.toFixed(0)}%;background:#1e40af;height:100%"></div>
         <div style="width:${sW.toFixed(0)}%;background:#3b82f6;height:100%"></div>
@@ -466,7 +464,6 @@ function renderS02(data){
   }).join("");
 }
 
-// 지도
 const W=960,H=480;
 const svg=d3.select("#world-svg").attr("viewBox",`0 0 ${W} ${H}`);
 const proj=d3.geoNaturalEarth1().scale(153).translate([W/2,H/2]);
@@ -512,17 +509,20 @@ function renderBubbles(data){
           <div class="tt-code">${d.country} · ${d.port_code}</div>
           <div class="tt-divider"></div>
           <div class="tt-row"><span class="tt-label">TPFS</span><span class="tt-val">${(d.tpfs||0).toFixed(1)}</span></div>
-          <div class="tt-row"><span class="tt-label">평균 대기</span><span class="tt-val">${(d.avg_wait_hours||0).toFixed(1)}h</span></div>
           <div class="tt-row"><span class="tt-label">대기 선박</span><span class="tt-val">${d.vessels_anchored||0}척</span></div>
           <div class="tt-row"><span class="tt-label">접안 선박</span><span class="tt-val">${d.vessels_berthed||0}척</span></div>
+          <div class="tt-row"><span class="tt-label">스냅샷 점수</span><span class="tt-val">${(d.snapshot_score||0).toFixed(1)}</span></div>
           <span class="tt-badge" style="background:${col}22;color:${col}">● ${d.level}</span>`;
       })
       .on("mouseleave",()=>{tt.style.display="none";});
   });
 }
 
-// S04
-const TABS=[{key:"congested",label:"최고 혼잡 항만 Top 10"},{key:"worsening",label:"급격 악화 항만"},{key:"improved",label:"개선 항만 Top 10"}];
+const TABS=[
+  {key:"congested",label:"최고 혼잡 항만 Top 10"},
+  {key:"anchor",label:"대기 선박 많은 항만"},
+  {key:"berthed",label:"접안 선박 많은 항만"}
+];
 let aTab="congested",aReg="all",aData=[];
 
 function renderS04(data){
@@ -530,45 +530,52 @@ function renderS04(data){
   const regs=[{key:"all",label:"전체"},...Object.entries(REGION_META).map(([k,v])=>({key:k,label:v.label}))];
   document.getElementById("region-filter").innerHTML=regs.map(r=>`<button class="rf-btn${r.key===aReg?" active":""}" onclick="sr('${r.key}')">${r.label}</button>`).join("");
   let pts=aReg==="all"?data:data.filter(d=>d.region===aReg);
-  if(aTab==="congested") pts=[...pts].sort((a,b)=>(b.avg_wait_hours||0)-(a.avg_wait_hours||0)).slice(0,10);
-  else if(aTab==="worsening") pts=[...pts].filter(d=>(d.change||0)>0).sort((a,b)=>(b.change||0)-(a.change||0)).slice(0,10);
-  else pts=[...pts].filter(d=>(d.change||0)<0).sort((a,b)=>(a.change||0)-(b.change||0)).slice(0,10);
-  const mw=Math.max(...pts.map(d=>d.avg_wait_hours||0))||1;
-  document.getElementById("tbl-head").innerHTML=`<tr><th style="width:28px">#</th><th>항만</th><th>레벨</th><th>접안 지연 (1W AVG)</th><th>대기/접안 선박</th><th style="text-align:right">변화</th></tr>`;
+  if(aTab==="congested") pts=[...pts].sort((a,b)=>(b.tpfs||0)-(a.tpfs||0)).slice(0,10);
+  else if(aTab==="anchor") pts=[...pts].sort((a,b)=>(b.vessels_anchored||0)-(a.vessels_anchored||0)).slice(0,10);
+  else pts=[...pts].sort((a,b)=>(b.vessels_berthed||0)-(a.vessels_berthed||0)).slice(0,10);
+  const maxMetric=Math.max(...pts.map(d=>aTab==="berthed"?(d.vessels_berthed||0):(aTab==="anchor"?(d.vessels_anchored||0):(d.tpfs||0))))||1;
+  document.getElementById("tbl-head").innerHTML=`<tr><th style="width:28px">#</th><th>항만</th><th>레벨</th><th>${aTab==="congested"?"TPFS":"핵심 수치"}</th><th>대기/접안 선박</th><th style="text-align:right">비중</th></tr>`;
   document.getElementById("tbl-body").innerHTML=pts.map((d,i)=>{
-    const col=LC[d.level],pct=((d.avg_wait_hours||0)/mw*100).toFixed(0),chg=d.change||0;
-    const chgH=chg>0?`<span class="chg-up">▲${chg}h</span>`:chg<0?`<span class="chg-dn">▼${Math.abs(chg)}h</span>`:`<span class="chg-flat">—</span>`;
+    const col=LC[d.level];
+    const metric=aTab==="berthed"?(d.vessels_berthed||0):(aTab==="anchor"?(d.vessels_anchored||0):(d.tpfs||0));
+    const metricLabel=aTab==="berthed"?`${metric}척`:aTab==="anchor"?`${metric}척`:`${metric.toFixed(1)}`;
+    const pct=((metric/maxMetric)*100).toFixed(0);
+    const share=((d.vessels_anchored||0)+ (d.vessels_berthed||0))>0 ? `${d.vessels_anchored||0}/${d.vessels_berthed||0}` : '0/0';
+    const shareHtml=aTab==="congested"
+      ? `<span class="chg-up">TPFS ${(d.tpfs||0).toFixed(1)}</span>`
+      : aTab==="anchor"
+        ? `<span class="chg-up">대기 ${(d.vessels_anchored||0)}척</span>`
+        : `<span class="chg-dn">접안 ${(d.vessels_berthed||0)}척</span>`;
     return`<tr>
       <td style="color:var(--muted);font-size:12px">${i+1}</td>
       <td><div class="pname">${d.name}</div><div class="pcode">${d.country}·${d.port_code}</div></td>
       <td><span class="badge ${d.level}">${d.level}</span></td>
-      <td><div class="wait-row"><div class="wait-bg"><div class="wait-fill" style="width:${pct}%;background:${col}"></div></div><div class="wait-val" style="color:${col}">${(d.avg_wait_hours||0).toFixed(1)}h</div></div></td>
-      <td style="font-family:monospace;font-size:12px">${d.vessels_anchored||0}<span style="color:var(--muted)"> / ${d.vessels_berthed||0}</span></td>
-      <td style="text-align:right">${chgH}</td></tr>`;
+      <td><div class="metric-row"><div class="metric-bg"><div class="metric-fill" style="width:${pct}%;background:${col}"></div></div><div class="metric-val" style="color:${col}">${metricLabel}</div></div></td>
+      <td style="font-family:monospace;font-size:12px">${share}</td>
+      <td style="text-align:right">${shareHtml}</td></tr>`;
   }).join("");
 }
 window.st=t=>{aTab=t;renderS04(aData);};
 window.sr=r=>{aReg=r;renderS04(aData);};
 
-// S05
 function renderS05(data){
-  const warns=data.filter(d=>(d.level==="LOW"||d.level==="STABLE")&&(d.change||0)>0)
-    .map(d=>({...d,pct:d.prevWait>0?Math.round((d.avg_wait_hours-d.prevWait)/d.prevWait*100):0}))
-    .sort((a,b)=>b.pct-a.pct).slice(0,8);
-  const mx=Math.max(...warns.map(d=>Math.max(d.avg_wait_hours,d.prevWait)))||1;
+  const warns=[...data]
+    .filter(d=>(d.level==="LOW"||d.level==="STABLE") && (d.vessels_anchored||0) >= 4)
+    .sort((a,b)=>(b.vessels_anchored||0)-(a.vessels_anchored||0))
+    .slice(0,8);
+  const mx=Math.max(...warns.map(d=>Math.max(d.vessels_anchored||0,d.vessels_berthed||0)))||1;
   document.getElementById("warn-list").innerHTML=warns.map(d=>`
     <div class="warn-card">
       <div><div class="wc-port">${d.name}</div><div class="wc-code">${d.country} · ${d.port_code}</div></div>
-      <div class="pci-trans"><span class="badge ${d.level}">${d.level}</span><span class="pci-arr">→</span><span class="badge ${d.level}">${d.level}</span></div>
+      <div class="pci-trans"><span class="badge ${d.level}">${d.level}</span><span class="pci-arr">→</span><span class="badge ${d.level}">WATCH</span></div>
       <div class="trend-bars">
-        <div class="trend-row"><span style="min-width:26px">전기</span><div class="trend-bg"><div class="trend-fill" style="width:${(d.prevWait/mx*100).toFixed(0)}%;background:rgba(255,255,255,.18)"></div></div><span style="min-width:28px;text-align:right">${d.prevWait.toFixed(0)}h</span></div>
-        <div class="trend-row"><span style="min-width:26px;color:var(--c-con)">현재</span><div class="trend-bg"><div class="trend-fill" style="width:${(d.avg_wait_hours/mx*100).toFixed(0)}%;background:var(--c-con)"></div></div><span style="min-width:28px;text-align:right;color:var(--c-con)">${d.avg_wait_hours.toFixed(0)}h</span></div>
+        <div class="trend-row"><span style="min-width:26px">대기</span><div class="trend-bg"><div class="trend-fill" style="width:${((d.vessels_anchored||0)/mx*100).toFixed(0)}%;background:var(--c-con)"></div></div><span style="min-width:28px;text-align:right;color:var(--c-con)">${d.vessels_anchored||0}척</span></div>
+        <div class="trend-row"><span style="min-width:26px">접안</span><div class="trend-bg"><div class="trend-fill" style="width:${((d.vessels_berthed||0)/mx*100).toFixed(0)}%;background:rgba(255,255,255,.18)"></div></div><span style="min-width:28px;text-align:right">${d.vessels_berthed||0}척</span></div>
       </div>
-      <div class="pct-chg">+${d.pct}%</div>
+      <div class="pct-chg">${(d.tpfs||0).toFixed(1)}</div>
     </div>`).join("");
 }
 
-// 메인
 async function refresh(){
   const raw=await fetchSupa();
   aData=merge(raw);
