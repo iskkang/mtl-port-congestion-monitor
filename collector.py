@@ -21,7 +21,7 @@ SUPABASE_URL = os.environ["SUPABASE_URL"]
 SUPABASE_SVC_KEY = os.environ["SUPABASE_SERVICE_KEY"]
 
 # 배치형 스냅샷 설정
-COLLECT_SECONDS = int(os.getenv("COLLECT_SECONDS", "900"))  # 기본 15분
+COLLECT_SECONDS = int(os.getenv("COLLECT_SECONDS", "900"))      # 기본 15분
 MAX_STALE_SECONDS = int(os.getenv("MAX_STALE_SECONDS", "300"))  # 5분 이상 안 보이면 제외
 SCORE_ANCHORED = float(os.getenv("SCORE_ANCHORED", "6.0"))
 SCORE_BERTHED = float(os.getenv("SCORE_BERTHED", "2.0"))
@@ -39,6 +39,7 @@ PORTS: Dict[str, dict] = {
     "JPYOK": {"name": "Yokohama", "country": "JP", "region": "kr-jp", "lat": 35.45, "lon": 139.65, "box": [[35.2, 139.4], [35.7, 139.9]]},
     "JPTYO": {"name": "Tokyo", "country": "JP", "region": "kr-jp", "lat": 35.62, "lon": 139.77, "box": [[35.4, 139.5], [35.8, 140.1]]},
     "JPUKB": {"name": "Kobe", "country": "JP", "region": "kr-jp", "lat": 34.68, "lon": 135.20, "box": [[34.5, 134.9], [34.9, 135.5]]},
+
     # 중국
     "CNSHA": {"name": "Shanghai", "country": "CN", "region": "china", "lat": 31.23, "lon": 121.47, "box": [[30.8, 121.0], [31.6, 122.0]]},
     "CNQIN": {"name": "Qingdao", "country": "CN", "region": "china", "lat": 36.07, "lon": 120.38, "box": [[35.8, 120.0], [36.3, 120.7]]},
@@ -47,6 +48,7 @@ PORTS: Dict[str, dict] = {
     "CNYTN": {"name": "Yantian", "country": "CN", "region": "china", "lat": 22.57, "lon": 114.27, "box": [[22.3, 114.0], [22.8, 114.6]]},
     "CNNSA": {"name": "Nansha", "country": "CN", "region": "china", "lat": 22.77, "lon": 113.57, "box": [[22.5, 113.2], [23.0, 113.9]]},
     "CNDLC": {"name": "Dalian", "country": "CN", "region": "china", "lat": 38.91, "lon": 121.60, "box": [[38.6, 121.2], [39.1, 122.0]]},
+
     # 동남아시아
     "VNTOT": {"name": "Cai Mep", "country": "VN", "region": "sea", "lat": 10.52, "lon": 107.03, "box": [[10.2, 106.7], [10.8, 107.4]]},
     "VNHPH": {"name": "Haiphong", "country": "VN", "region": "sea", "lat": 20.87, "lon": 106.68, "box": [[20.6, 106.4], [21.1, 107.0]]},
@@ -56,12 +58,14 @@ PORTS: Dict[str, dict] = {
     "IDJKT": {"name": "Jakarta", "country": "ID", "region": "sea", "lat": -6.10, "lon": 106.88, "box": [[-6.4, 106.5], [-5.7, 107.2]]},
     "IDSUB": {"name": "Surabaya", "country": "ID", "region": "sea", "lat": -7.20, "lon": 112.73, "box": [[-7.5, 112.4], [-6.9, 113.1]]},
     "PHMNL": {"name": "Manila", "country": "PH", "region": "sea", "lat": 14.59, "lon": 120.97, "box": [[14.2, 120.6], [14.9, 121.3]]},
+
     # 남아시아·중동
     "LKCMB": {"name": "Colombo", "country": "LK", "region": "sa-me", "lat": 6.93, "lon": 79.85, "box": [[6.6, 79.5], [7.2, 80.2]]},
     "AEJEA": {"name": "Jebel Ali", "country": "AE", "region": "sa-me", "lat": 24.98, "lon": 55.06, "box": [[24.6, 54.7], [25.3, 55.4]]},
     "INBOM": {"name": "Mumbai", "country": "IN", "region": "sa-me", "lat": 18.94, "lon": 72.84, "box": [[18.6, 72.5], [19.2, 73.1]]},
     "JOAQJ": {"name": "Aqaba", "country": "JO", "region": "sa-me", "lat": 29.52, "lon": 35.00, "box": [[29.2, 34.7], [29.8, 35.3]]},
     "ILASH": {"name": "Ashdod", "country": "IL", "region": "sa-me", "lat": 31.82, "lon": 34.65, "box": [[31.5, 34.3], [32.1, 34.9]]},
+
     # 유럽
     "NLRTM": {"name": "Rotterdam", "country": "NL", "region": "europe", "lat": 51.92, "lon": 4.48, "box": [[51.6, 4.0], [52.2, 5.0]]},
     "DEHAM": {"name": "Hamburg", "country": "DE", "region": "europe", "lat": 53.55, "lon": 9.99, "box": [[53.3, 9.5], [53.8, 10.4]]},
@@ -73,6 +77,7 @@ PORTS: Dict[str, dict] = {
     "ITGOA": {"name": "Genoa", "country": "IT", "region": "europe", "lat": 44.41, "lon": 8.93, "box": [[44.1, 8.6], [44.7, 9.3]]},
     "SIKOP": {"name": "Koper", "country": "SI", "region": "europe", "lat": 45.55, "lon": 13.73, "box": [[45.3, 13.4], [45.8, 14.1]]},
     "ESALG": {"name": "Algeciras", "country": "ES", "region": "europe", "lat": 36.13, "lon": -5.45, "box": [[35.9, -5.7], [36.4, -5.1]]},
+
     # 북미
     "USLAX": {"name": "Los Angeles", "country": "US", "region": "namerica", "lat": 33.73, "lon": -118.25, "box": [[33.4, -118.6], [34.0, -117.9]]},
     "USLGB": {"name": "Long Beach", "country": "US", "region": "namerica", "lat": 33.77, "lon": -118.22, "box": [[33.5, -118.5], [34.0, -117.9]]},
@@ -80,10 +85,12 @@ PORTS: Dict[str, dict] = {
     "USSAV": {"name": "Savannah", "country": "US", "region": "namerica", "lat": 32.08, "lon": -81.09, "box": [[31.8, -81.4], [32.4, -80.8]]},
     "CAVAN": {"name": "Vancouver", "country": "CA", "region": "namerica", "lat": 49.29, "lon": -123.11, "box": [[49.0, -123.5], [49.6, -122.7]]},
     "USMSY": {"name": "New Orleans", "country": "US", "region": "namerica", "lat": 29.95, "lon": -90.07, "box": [[29.6, -90.4], [30.2, -89.7]]},
+
     # 러시아·CIS
     "RUVVO": {"name": "Vladivostok", "country": "RU", "region": "ru-cis", "lat": 43.12, "lon": 131.89, "box": [[42.8, 131.5], [43.5, 132.3]]},
     "RUNVS": {"name": "Novorossiysk", "country": "RU", "region": "ru-cis", "lat": 44.72, "lon": 37.78, "box": [[44.4, 37.4], [44.9, 38.2]]},
     "KZAKT": {"name": "Aktau", "country": "KZ", "region": "ru-cis", "lat": 43.65, "lon": 51.18, "box": [[43.3, 50.8], [44.0, 51.6]]},
+
     # 아프리카·지중해
     "MACAS": {"name": "Casablanca", "country": "MA", "region": "africa", "lat": 33.59, "lon": -7.62, "box": [[33.3, -7.9], [33.9, -7.3]]},
     "KEMBA": {"name": "Mombasa", "country": "KE", "region": "africa", "lat": -4.05, "lon": 39.67, "box": [[-4.4, 39.3], [-3.7, 40.0]]},
@@ -109,8 +116,8 @@ def find_port(lat: float, lon: float) -> str | None:
 def classify_status(nav_status: int, speed: float) -> str | None:
     """
     배치형 스냅샷 분류.
-    - berth: 접안/정지 상태
-    - anchor: 묘박/대기 상태
+    - berthed: 접안/정지 상태
+    - anchored: 묘박/대기 상태
     """
     if nav_status == 5 or speed < 0.1:
         return "berthed"
@@ -196,6 +203,7 @@ async def collect_snapshot():
         try:
             remaining = max(1, int(deadline - asyncio.get_running_loop().time()))
             log.info("Connecting to aisstream.io... remaining collection window: %ss", remaining)
+
             async with websockets.connect(
                 AISSTREAM_WS,
                 ping_interval=30,
@@ -218,13 +226,15 @@ async def collect_snapshot():
                         process_message(msg)
                     except json.JSONDecodeError:
                         continue
+
         except websockets.exceptions.ConnectionClosed as e:
             log.warning("Connection closed: %s. Retrying in %ss", e, backoff)
         except Exception as e:
             log.error("Stream error: %s. Retrying in %ss", e, backoff)
 
         if asyncio.get_running_loop().time() < deadline:
-            await asyncio.sleep(min(backoff, max(1, int(deadline - asyncio.get_running_loop().time()))))
+            sleep_for = min(backoff, max(1, int(deadline - asyncio.get_running_loop().time())))
+            await asyncio.sleep(sleep_for)
             backoff = min(backoff * 2, 60)
 
 
@@ -251,6 +261,7 @@ def build_rows(now: datetime) -> list[dict]:
         anchored = port_agg[code]["anchored"]
         berthed = port_agg[code]["berthed"]
         tpfs = calc_snapshot_tpfs(anchored, berthed)
+
         rows.append(
             {
                 "port_code": code,
@@ -263,6 +274,7 @@ def build_rows(now: datetime) -> list[dict]:
                 "level": tpfs_to_level(tpfs),
             }
         )
+
     return rows
 
 
@@ -292,16 +304,6 @@ def save_metrics(rows, now):
 
     congested = sum(1 for r in rows if r["level"] == "CONGESTED")
     busy = sum(1 for r in rows if r["level"] == "BUSY")
-
-    log.info(
-        f"Saved {len(rows)} ports | "
-        f"CONGESTED={congested}, BUSY={busy}"
-    )
-    ]
-    supabase.table("port_history").insert(history_rows).execute()
-
-    congested = sum(1 for r in rows if r["level"] == "CONGESTED")
-    busy = sum(1 for r in rows if r["level"] == "BUSY")
     stable = sum(1 for r in rows if r["level"] == "STABLE")
     low = sum(1 for r in rows if r["level"] == "LOW")
 
@@ -323,6 +325,7 @@ async def main():
     now = datetime.now(timezone.utc)
     rows = build_rows(now)
     active_signals = sum(r["vessels_anchored"] + r["vessels_berthed"] for r in rows)
+
     log.info("Collection finished. Active vessel signals in snapshot: %s", active_signals)
     save_metrics(rows, now)
 
