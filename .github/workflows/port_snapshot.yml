@@ -2,7 +2,8 @@ name: Port snapshot updater
 
 on:
   schedule:
-    - cron: '30 23,11 * * *'
+    # every 4 hours (UTC): 00:30, 04:30, 08:30, 12:30, 16:30, 20:30
+    - cron: '30 */4 * * *'
   workflow_dispatch:
 
 jobs:
