@@ -1,110 +1,79 @@
-# MTL Port Congestion Monitor
+# MTL Vessel Activity Index (MVAI)
 
-글로벌 50개 항만 실시간 혼잡도 모니터링 시스템
+글로벌 컨테이너 항만 73곳의 AIS 신호 기반 선박 활동도 모니터링 시스템.
+
+## 이게 무엇인지 (그리고 무엇이 아닌지)
+
+**MVAI는** 무료 AIS 데이터로 항만별 묘박/접안 선박 수를 집계해 산출하는 자체 활동도 지수입니다.
+
+**MVAI는 다음이 아닙니다:**
+- 항만 혼잡도(Port Congestion Index) — 실제 대기시간을 측정하지 않음
+- 운임 의사결정 도구 — 산식이 학술적으로 검증되지 않음
+- TradLinx PCI / MarineTraffic Port Calls API 등 전문 서비스의 대체재
+
+전문 용도에는 위 서비스들을 사용하시고, MVAI는 내부 참고용으로만 활용하세요.
+
+## 산식
+MVAI = min(100, anchored × 6 + berthed × 2)
+등급:
+VERY_HIGH (75+)   매우 활발
+HIGH      (50~75) 활발
+MODERATE  (25~50) 보통
+LOW       (0~25)  한산
 
 ## 아키텍처
-
-```
-aisstream.io WebSocket (무료)
-        ↓
-  collector.py  ← Railway 상시 실행
-        ↓
-  Supabase PostgreSQL (무료 500MB)
-        ↓
-  frontend/index.html ← Vercel or 회사 홈페이지 직접 삽입
-```
-
----
-
-## 1단계: aisstream.io API 키 재발급
-
-1. https://aisstream.io 로그인
-2. Dashboard → API Keys → 기존 키 삭제 후 새 키 발급
-3. 새 키를 메모해두기 (절대 코드에 직접 넣지 말 것)
-
----
-
-## 2단계: Supabase 설정
-
-1. https://supabase.com 에서 새 프로젝트 생성
-2. SQL Editor → `schema.sql` 전체 내용 붙여넣기 → Run
-3. Settings → API에서 두 값 메모:
-   - **Project URL**: `https://xxxx.supabase.co`
-   - **service_role** 키 (비공개, 서버에서만 사용)
-   - **anon public** 키 (프론트엔드에서 사용, 공개 OK)
-
----
-
-## 3단계: Railway 배포
-
-1. https://railway.app → New Project → Deploy from GitHub
-   - 이 폴더를 GitHub에 push 후 연결 (collector.py, requirements.txt, railway.toml)
-2. Variables 탭에서 환경변수 설정:
-   ```
-   AISSTREAM_API_KEY  = (1단계에서 발급한 새 키)
-   SUPABASE_URL       = (2단계 Project URL)
-   SUPABASE_SERVICE_KEY = (2단계 service_role 키)
-   ```
-3. Deploy → 로그에서 "Connected to aisstream.io" 확인
-
----
-
-## 4단계: 프론트엔드 배포
-
-### 옵션 A: 회사 홈페이지에 직접 삽입
-`frontend/index.html` 상단 CONFIG 수정 후 HTML 파일을 홈페이지에 추가:
-```javascript
-const CONFIG = {
-  SUPABASE_URL:      "https://xxxx.supabase.co",   // 실제 URL
-  SUPABASE_ANON_KEY: "eyJhbGci...",               // anon public 키
-};
-```
-
-### 옵션 B: Vercel 독립 페이지
-```bash
-cd frontend
-npx vercel deploy
-```
-
-### 옵션 C: iframe으로 기존 홈페이지에 삽입
-```html
-<iframe 
-  src="https://your-vercel-url.vercel.app" 
-  width="100%" 
-  height="800px" 
-  frameborder="0">
-</iframe>
-```
-
----
-
-## 데이터 흐름
-
-1. Railway의 `collector.py`가 **24시간 상시** aisstream.io WebSocket 구독
-2. 50개 항만 bounding box 내 AIS 신호를 실시간 수신
-3. 선박이 묘박(At Anchor, nav_status=1)이면 메모리에 추적 시작
-4. **매 1시간마다** Supabase에 집계 데이터 upsert
-   - `port_current` 테이블: 항만별 최신값 1행 (프론트엔드가 조회)
-   - `port_history` 테이블: 시계열 누적 (추후 트렌드 분석용)
-5. 프론트엔드는 Supabase REST API로 `port_current` 조회 → 지도 렌더링
-
----
-
-## 한계 및 주의사항
-
-- **TPFS 지수는 근사치**: 실제 묘박 구역 폴리곤 없이 bounding box 사용
-- **선박 유형 미구분**: 컨테이너선/벌크선 구분 없이 nav_status 기반
-- **첫 데이터**: 수집 시작 후 첫 저장까지 5분 소요, 안정적 데이터는 6~24시간 후
-- **Railway 무료 플랜**: 월 $5 Hobby 플랜 권장 (무료는 500시간/월 제한)
-
----
+aisstream.io WebSocket (무료 AIS)
+↓
+collector.py  ← GitHub Actions 2시간 cron, 15분 수집
+↓
+Supabase PostgreSQL
+↓
+index.html ← 정적 대시보드
 
 ## 비용
 
 | 항목 | 서비스 | 요금 |
-|------|--------|------|
+|---|---|---|
 | AIS 데이터 | aisstream.io | 무료 |
-| 서버 (24/7) | Railway Hobby | $5/월 |
+| 실행 환경 | GitHub Actions | 무료 (public repo) |
 | 데이터베이스 | Supabase | 무료 (500MB) |
-| 프론트엔드 | Vercel | 무료 |
-| **합계** | | **$5/월** |
+| 프론트엔드 | Vercel 또는 정적 호스팅 | 무료 |
+| **합계** | | **$0/월** |
+
+## 모니터링 대상 (73개 컨테이너 항만)
+
+권역별 항만 수:
+- 한국·일본: 6 (Busan, Incheon, Tokyo 등)
+- 중국·홍콩·대만: 10 (Shanghai, Ningbo, HK, Kaohsiung 등)
+- 동남아시아: 9 (Singapore, Port Klang 등)
+- 남아시아·중동: 9 (Jebel Ali, Nhava Sheva 등)
+- 유럽: 10 (Rotterdam, Antwerp, Hamburg 등)
+- 북미: 8 (LA, Long Beach, NY/NJ, Houston 등)
+- 중남미: 8 (Santos, Manzanillo 등)
+- 러시아·CIS: 4 (Saint Petersburg, Vladivostok 등)
+- 아프리카·지중해: 9 (Tanger Med, Djibouti 등)
+
+대상 선정 기준: 2024년 컨테이너 처리량(TEU) 및 권역별 대표성.
+
+## 한계
+
+1. **대기시간 미측정** — 묘박 선박 수만 카운트하며, 실제 접안 대기 시간은 별도 측정 안 함
+2. **Bounding box 근사** — 실제 묘박지 polygon이 아닌 사각형 영역으로 항만 정의
+3. **항만 규모 정규화 없음** — 대형 항만(Shanghai 등)은 절대값 크므로 항상 높게 나타남
+4. **무료 AIS 한계** — 위성 AIS 미사용으로 외해 묘박지(연안 30km+)는 누락 가능
+5. **ShipType 필터 한계** — Static Message에 ShipType이 누락된 선박은 일부 포함됨
+6. **수집 주기** — 2시간 cron, 시각 고정 → 항만별 시간대 편향 존재
+
+## 배포
+
+[기존 배포 가이드 유지 — Supabase 설정, GitHub Secrets, Actions 활성화]
+
+## 인정 (Acknowledgments)
+
+본 시스템의 시각화 컨셉은 TradLinx Port Congestion Index 리포트
+(https://www.tradlinx.com)를 참고하여 개발되었습니다. MVAI 산식은 자체 정의된 
+간이 지표이며 TradLinx PCI와 동등한 정밀도를 가지지 않습니다.
+
+## 라이선스
+
+[프로젝트 라이선스]
