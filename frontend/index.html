@@ -196,7 +196,7 @@ footer.site-footer strong{color:var(--dim);font-size:12px}
       <div class="gauge-meta">
         <div class="gm-item"><div class="gm-val" id="g-risk">—</div><div class="gm-lbl">활성 항만 수</div></div>
         <div class="gm-item"><div class="gm-val" id="g-lv" style="color:var(--c-busy)">—</div><div class="gm-lbl">활동 수준</div></div>
-        <div class="gm-item"><div class="gm-val" id="g-anchored">—</div><div class="gm-lbl">전체 묘박 선박</div></div>
+        <div class="gm-item"><div class="gm-val" id="g-anchored">—</div><div class="gm-lbl">전체 Anchoring 선박</div></div>
       </div>
     </div>
     <div class="level-card">
@@ -216,7 +216,7 @@ footer.site-footer strong{color:var(--dim);font-size:12px}
 <section class="section">
   <div class="section-label">Section 02</div>
   <div class="section-title">권역별 활동도 현황</div>
-  <div class="section-sub">권역별 MVAI 분포 및 묘박/접안 선박 수</div>
+  <div class="section-sub">권역별 MVAI 분포 및 Anchoring/접안 선박 수</div>
   <div class="region-grid" id="region-grid"></div>
 </section>
  
@@ -269,11 +269,11 @@ footer.site-footer strong{color:var(--dim);font-size:12px}
     산식: <code>MVAI = min(100, anchored × 6 + berthed × 2)</code> ·
     수집 주기: 2시간 · 데이터 소스: aisstream.io 무료 AIS 피드<br><br>
     <strong>한계 명시</strong><br>
-    · 실제 접안 대기시간은 측정하지 않습니다 — 묘박/접안 선박 수만 카운트<br>
-    · 항만 영역은 bounding box 근사이며 실제 묘박지 polygon이 아닙니다<br>
+    · 실제 접안 대기시간은 측정하지 않습니다 — Anchoring/접안 선박 수만 카운트<br>
+    · 항만 영역은 bounding box 근사이며 실제 Anchoring polygon이 아닙니다<br>
     · 어선·예인선·요트 등은 제외하나, ShipType 미상 선박은 일부 포함됩니다<br>
     · 항만 규모에 따른 정규화가 적용되지 않아 대형항이 항상 높게 나타납니다<br>
-    · 외해 묘박지(연안 30km 이상)는 무료 AIS 커버리지 한계로 포착되지 않을 수 있습니다<br><br>
+    · 외해 Anchoring(연안 30km 이상)는 무료 AIS 커버리지 한계로 포착되지 않을 수 있습니다<br><br>
     본 도구는 사내 참고용이며, 운임 의사결정·계약 협상 등 공식 용도에는
     TradLinx PCI, MarineTraffic Port Calls API, IMF PortWatch 등 검증된 외부 데이터를 사용하시기 바랍니다.<br><br>
     <span style="color:var(--muted)">시각화 컨셉 참고: TradLinx Port Congestion Index Report</span>
@@ -583,7 +583,7 @@ function renderBubbles(data){
           <div class="tt-code">${d.country} · ${d.port_code}</div>
           <div class="tt-divider"></div>
           <div class="tt-row"><span class="tt-label">MVAI</span><span class="tt-val">${(d.tpfs||0).toFixed(1)}</span></div>
-          <div class="tt-row"><span class="tt-label">묘박 선박</span><span class="tt-val">${d.vessels_anchored||0}척</span></div>
+          <div class="tt-row"><span class="tt-label">Anchoring 선박</span><span class="tt-val">${d.vessels_anchored||0}척</span></div>
           <div class="tt-row"><span class="tt-label">접안 선박</span><span class="tt-val">${d.vessels_berthed||0}척</span></div>
           <span class="tt-badge" style="background:${col}22;color:${col}">● ${levelLabel(d.level)}</span>`;
       })
@@ -594,7 +594,7 @@ function renderBubbles(data){
 // ─── S04 ───
 const TABS=[
   {key:"congested",label:"활동도 높은 Top 15"},
-  {key:"anchored",label:"묘박 선박 많은 Top 15"},
+  {key:"anchored",label:"Anchoring 선박 많은 Top 15"},
   {key:"all",label:"전체 항만"},
 ];
 let aTab="congested",aReg="all",aData=[];
