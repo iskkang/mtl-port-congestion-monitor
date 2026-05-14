@@ -1,6 +1,8 @@
 -- ================================================================
--- MTL Port Congestion Monitor — Supabase Schema
--- Supabase SQL Editor에서 실행하세요
+-- MTL Vessel Activity Index (MVAI) — Supabase Schema
+-- NOTE: 컬럼명 'tpfs'는 레거시 호환을 위해 유지. 표시상 명칭은 MVAI.
+--       MVAI = min(100, anchored × 6 + berthed × 2)
+--       이 지표는 선박 활동도이며 항만 혼잡도(congestion)가 아님.
 -- ================================================================
 
 -- 1. 항만 최신 현황 테이블 (항상 최신값 1행/항만)
