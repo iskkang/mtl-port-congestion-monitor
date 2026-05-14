@@ -1,9 +1,13 @@
 """
-MTL Port Congestion Snapshot Collector
-- aisstream.io WebSocket으로 글로벌 항만의 AIS PositionReport를 15분간 수집
-- 컨테이너선/잡화선만 필터링하여 항만별 묘박/접안 선박 수 집계
-- TPFS 간이 혼잡 점수 산출 후 Supabase port_current / port_history에 저장
-- GitHub Actions cron으로 주기 실행 (Railway 미사용)
+MTL Vessel Activity Index Collector
+- aisstream.io WebSocket으로 글로벌 컨테이너 항만의 AIS PositionReport 수집
+- 컨테이너선/잡화선 필터링하여 항만별 묘박/접안 선박 수 집계
+- MVAI (MTL Vessel Activity Index, 내부 산식) 산출 후 Supabase 저장
+- GitHub Actions cron으로 주기 실행
+
+NOTE: DB 컬럼명은 기존 호환을 위해 'tpfs'로 유지. 표시상 명칭은 'MVAI'.
+      이 지표는 항만 혼잡도(congestion)가 아닌 선박 활동도(activity)를 측정함.
+      실제 접안 대기시간은 측정하지 않음.
 """
 
 import asyncio
@@ -212,7 +216,12 @@ def is_relevant_ship(ship_type: int) -> bool:
 
 
 def calc_snapshot_tpfs(anchored_count: int, berthed_count: int) -> float:
-    """스냅샷용 간이 혼잡 점수 (0~100)."""
+    """
+    MVAI 점수 산출 (0~100). DB 컬럼명 호환을 위해 함수명은 tpfs 유지.
+    묘박 선박에 더 큰 가중치를 부여 (대기 상태가 활동도 높음 신호).
+    
+    한계: 항만 규모 정규화 없음. 대형항일수록 항상 높게 나타남.
+    """
     raw = anchored_count * SCORE_ANCHORED + berthed_count * SCORE_BERTHED
     return round(min(raw, 100.0), 1)
 
